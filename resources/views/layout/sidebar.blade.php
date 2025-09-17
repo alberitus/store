@@ -38,7 +38,7 @@
                 <h6 class="collapse-header">Product:</h6>
                 <a class="collapse-item" href="buttons.html">Product List</a>
                 <a class="collapse-item" href="cards.html">Add Product</a>
-                <a class="collapse-item" href="cards.html">Categories List</a>
+                <a class="collapse-item" href="{{ route('categories.index') }}">Categories List</a>
             </div>
         </div>
     </li>

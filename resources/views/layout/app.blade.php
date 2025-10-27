@@ -94,6 +94,8 @@
     <script src="{{ asset('import/assets/js/demo/chart-pie-demo.js') }}"></script>
     <script src="{{ asset('import/assets/js/datatables.js') }}"></script>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lazysizes/5.3.2/lazysizes.min.js" async></script>
+
     <script>
         $(document).ready(function() {
             $('.select2').each(function() {

@@ -1,62 +1,63 @@
 @extends('layout.app')
 @section('title', 'Product')
 @section('content')
-    <div class="card shadow mb-4">
-        <div class="card-header py-3 d-flex justify-content-between align-items-center">
-            <h6 class="m-0 font-weight-bold text-primary">Tabel Product</h6>
-            <div class="d-flex gap-2 ml-auto">
-                <a href="{{ route('products.create') }}" class="btn btn-sm btn-primary">
-                    <i class="fa fa-plus"></i> Add Product
-                </a>
+    <style>
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        a:hover .overlay {
+            opacity: 1;
+        }
+    </style>
+
+    <div class="row">
+        @foreach ($product as $item)
+            <div class="col-md-2 mb-2">
+                <div class="card shadow-sm h-100 position-relative overflow-hidden">
+                    <div class="position-relative">
+                        <a href="{{ route('products.show', $item->id) }}" class="d-block position-relative">
+                            @if ($item->image)
+                                <img data-src="{{ asset('storage/' . $item->image) }}" class="card-img-top lazyload"
+                                    loading="lazy" alt="{{ $item->name }}" style="height: 200px; object-fit: cover;">
+                            @else
+                                <img data-src="{{ asset('assets/img/no-image.png') }}" class="card-img-top lazyload"
+                                    loading="lazy" alt="No Image" style="height: 200px; object-fit: cover;">
+                            @endif
+                            <div class="overlay d-flex align-items-center justify-content-center">
+                                <span class="text-white font-weight-bold">Lihat Detail</span>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title text-center font-weight-bold">{{ $item->name }}</h5>
+                        <p class="card-text text-center mb-1 text-muted">
+                            Rp {{ number_format($item->price, 0, ',', '.') }}
+                        </p>
+                        <div class="mt-auto d-flex justify-content-between align-items-center">
+                            <a href="{{ route('products.edit', $item->id) }}" class="btn btn-sm btn-warning">
+                                <i class="fas fa-edit"></i> Edit
+                            </a>
+                            <form action="{{ route('products.destroy', encrypt($item->id)) }}" method="POST"
+                                class="d-inline" onsubmit="return confirm('Yakin ingin menghapus produk ini?')">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-sm btn-danger">
+                                    <i class="fas fa-trash"></i> Delete
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
-        <div class="card-body">
-            <div class="table-responsive">
-                <table class="table table-bordered table-striped" id="dataTable" width="100%" cellspacing="0">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>CATEGORIES</th>
-                            <th>TOTAL PRODUCTS</th>
-                            <th>TOTAL EARNING</th>
-                            <th>ACTION</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($product as $item)
-                            <tr>
-                                <td>{{ $loop->iteration }}</td>
-                                <td>{{ $item->name }}</td>
-                                <td>{{ $item->name }}</td>
-                                <td>{{ $item->name }}</td>
-                                <td class="center-table wd-5">
-                                    <div class="dropdown">
-                                        <button class="btn btn-sm btn-outline-primary dropdown-toggle" type="button"
-                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="fas fa-cogs"></i>
-                                        </button>
-                                        <div class="dropdown-menu dropdown-menu-right">
-                                            <a class="dropdown-item" href="" data-toggle="modal"
-                                                data-target="#modalEdit{{ $item->id }}">
-                                                <i class="fas fa-edit me-1"></i> Edit
-                                            </a>
-                                            <form action="{{ route('categories.destroy', encrypt($item->id)) }}"
-                                                method="POST" class="delete-form d-inline">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="button" class="dropdown-item btn-delete text-danger"
-                                                    data-id="{{ $item->id }}">
-                                                    <i class="fas fa-trash me-1"></i> Delete
-                                                </button>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
-        </div>
+        @endforeach
     </div>
 @endsection

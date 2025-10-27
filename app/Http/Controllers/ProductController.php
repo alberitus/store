@@ -14,7 +14,7 @@ class ProductController extends Controller
     public function index()
     {
         $data = [
-            'product' => product::all(),
+            'product' => product::with('category')->get(),
         ];
         return view('product.index', $data);
     }
@@ -35,9 +35,26 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'price' => 'required|numeric|min:0',
+            'stock' => 'required|integer|min:0',
+            'category_id' => 'required|exists:categories,id',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
+        ]);
+    
+        if ($request->hasFile('image')) {
+            $validated['image'] = $request->file('image')->store('products', 'public');
+        }
+    
+        product::create($validated);
+    
+        return redirect()
+            ->route('products.index')
+            ->with('success', 'Product berhasil ditambahkan.');
     }
-
+    
     /**
      * Display the specified resource.
      */

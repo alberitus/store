@@ -1,16 +1,16 @@
 <?php
 
-use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PageController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\CategoryController;
 
-Route::get('/', function () {
-    return view('index');
-});
+Route::get('/', [PageController::class, 'index'])->name('index');
 
-Route::get('/dashboard', function () {
+Route::get('/admin', function () {
     return view('dashboard.dashboard');
 });
 
 Route::resource('categories', CategoryController::class);
+
 Route::resource('products', ProductController::class);

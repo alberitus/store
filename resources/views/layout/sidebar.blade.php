@@ -2,8 +2,8 @@
 
     <!-- Sidebar - Brand -->
     <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
-        <div class="sidebar-brand-icon rotate-n-15">
-            <i class="fas fa-store"></i>
+        <div class="sidebar-brand-icon">
+            <img src="{{ asset('assets/img/dashboard.png') }}" alt="Logo" style="width: 40px; height: 40px;">
         </div>
         <div class="sidebar-brand-text mx-3">My Store</div>
     </a>
@@ -36,8 +36,8 @@
         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">Product:</h6>
-                <a class="collapse-item" href="buttons.html">Product List</a>
-                <a class="collapse-item" href="cards.html">Add Product</a>
+                <a class="collapse-item" href="{{ route('products.index') }}">Product List</a>
+                <a class="collapse-item" href="{{ route('products.create') }}">Add Product</a>
                 <a class="collapse-item" href="{{ route('categories.index') }}">Categories List</a>
             </div>
         </div>

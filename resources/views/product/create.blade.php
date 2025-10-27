@@ -1,79 +1,85 @@
 @extends('layout.app')
 @section('title', 'Add Product')
 @section('content')
-    <div class="row">
-        <div class="col-8">
-            <div class="card shadow mb-4">
-                <div class="card-header py-3 d-flex justify-content-between align-items-center">
-                    <h6 class="m-0 font-weight-bold text-primary">Product Information</h6>
-                    <div class="d-flex gap-2 ml-auto">
-                        <a href="{{ route('products.create') }}" class="btn btn-sm btn-primary">
-                            <i class="fa fa-plus"></i> Add Product
-                        </a>
+    <form action="{{ route('products.store') }}" method="POST" enctype="multipart/form-data">
+        @csrf
+
+        <div class="row">
+            {{-- ================== PRODUCT INFORMATION ================== --}}
+            <div class="col-8">
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3 d-flex justify-content-between align-items-center">
+                        <h6 class="m-0 font-weight-bold text-primary">Product Information</h6>
                     </div>
-                </div>
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="form-group">
-                                <label>Name</label>
-                                <input type="text" name="name" class="form-control" placeholder="Product Titile"
-                                    required>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label>Name</label>
+                                    <input type="text" name="name" class="form-control" placeholder="Product Title"
+                                        value="{{ old('name') }}" required>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-6">
-                            <div class="form-group">
-                                <label>Price</label>
-                                <input type="text" name="price" class="form-control" placeholder="Price" required>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label>Price</label>
+                                    <input type="number" step="0.01" name="price" class="form-control"
+                                        placeholder="Price" value="{{ old('price') }}" required>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-6">
-                            <div class="form-group">
-                                <label>Stock</label>
-                                <input type="text" name="stock" class="form-control" placeholder="Stock" required>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label>Stock</label>
+                                    <input type="number" name="stock" class="form-control" placeholder="Stock"
+                                        value="{{ old('stock') }}" required>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="form-group">
-                                <label>description</label>
-                                <textarea name="description" class="form-control" rows="6" placeholder="Product Description" required></textarea>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-4">
-            <div class="card shadow mb-4">
-                <div class="card-header py-3 d-flex justify-content-between align-items-center">
-                    <h6 class="m-0 font-weight-bold text-primary">Organize</h6>
-                </div>
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-6">
-                            <div class="form-group">
-                                <label for="kategori">Kategori</label>
-                                <select class="form-control select2" name="category_id" required>
-                                    <option value="">Pilih Kategori</option>
-                                    @foreach ($category as $item)
-                                        <option value="{{ $item->id }}">
-                                            {{ $item->name }}
-                                        </option>
-                                    @endforeach
-                                </select>
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label>Description</label>
+                                    <textarea name="description" class="form-control" rows="6" placeholder="Product Description" required>{{ old('description') }}</textarea>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="col-8">
-            <div class="card shadow mb-4">
-                <div class="card-header py-3 d-flex justify-content-between align-items-center">
-                    <h6 class="m-0 font-weight-bold text-primary">Product Image</h6>
+
+            {{-- ================== ORGANIZE SECTION ================== --}}
+            <div class="col-4">
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3 d-flex justify-content-between align-items-center">
+                        <h6 class="m-0 font-weight-bold text-primary">Organize</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label>Kategori</label>
+                            <select class="form-control select2" name="category_id" required>
+                                <option value="">Pilih Kategori</option>
+                                @foreach ($category as $item)
+                                    <option value="{{ $item->id }}"
+                                        {{ old('category_id') == $item->id ? 'selected' : '' }}>
+                                        {{ $item->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group form-check mt-3">
+                            <input type="checkbox" name="is_featured" class="form-check-input" id="featuredCheck"
+                                {{ old('is_featured') ? 'checked' : '' }}>
+                            <label class="form-check-label" for="featuredCheck">Tampilkan sebagai produk unggulan</label>
+                        </div>
+                    </div>
                 </div>
-                <div class="card-body">
-                    <div class="row">
+            </div>
+
+            {{-- ================== PRODUCT IMAGE ================== --}}
+            <div class="col-8">
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3 d-flex justify-content-between align-items-center">
+                        <h6 class="m-0 font-weight-bold text-primary">Product Image</h6>
+                    </div>
+                    <div class="card-body">
                         <div class="col-12 mt-3">
                             <label class="font-weight-bold">Product Image</label>
                             <div id="dropArea"
@@ -86,8 +92,8 @@
                             </div>
                             <div class="mt-3" id="previewContainer" style="display:none;">
                                 <div class="d-flex align-items-start">
-                                    <img id="previewImage" src="{{ $item->image ? asset('storage/' . $item->image) : '' }}"
-                                        alt="Preview" class="img-thumbnail" style="max-height:150px;">
+                                    <img id="previewImage" src="" alt="Preview" class="img-thumbnail"
+                                        style="max-height:150px;">
                                     <div class="ml-3">
                                         <p id="previewName" class="mb-1 small text-truncate" style="max-width:200px;"></p>
                                         <button type="button" class="btn btn-sm btn-outline-danger" id="removeImageBtn">
@@ -101,92 +107,15 @@
                     </div>
                 </div>
             </div>
+
+            {{-- ================== SUBMIT BUTTON ================== --}}
+            <div class="col-12 text-right">
+                <button type="submit" class="btn btn-success px-4">
+                    <i class="fa fa-save"></i> Simpan Produk
+                </button>
+            </div>
         </div>
-    </div>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const dropArea = document.getElementById('dropArea');
-            const imageInput = document.getElementById('imageInput');
-            const previewContainer = document.getElementById('previewContainer');
-            const previewImage = document.getElementById('previewImage');
-            const previewName = document.getElementById('previewName');
-            const removeBtn = document.getElementById('removeImageBtn');
-            const dropHint = document.getElementById('dropHint');
+    </form>
 
-            const MAX_SIZE = 2 * 1024 * 1024;
-            const ALLOWED = ['image/jpeg', 'image/png', 'image/jpg', 'image/webp'];
-
-            function preventDefaults(e) {
-                e.preventDefault();
-                e.stopPropagation();
-            }
-
-            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(ev => {
-                dropArea.addEventListener(ev, preventDefaults, false);
-            });
-
-            ['dragenter', 'dragover'].forEach(ev => {
-                dropArea.addEventListener(ev, () => dropArea.classList.add('dragover'), false);
-            });
-
-            ['dragleave', 'drop'].forEach(ev => {
-                dropArea.addEventListener(ev, () => dropArea.classList.remove('dragover'), false);
-            });
-
-            dropArea.addEventListener('click', () => imageInput.click());
-            dropArea.addEventListener('drop', handleDrop, false);
-            imageInput.addEventListener('change', handleFiles, false);
-            removeBtn.addEventListener('click', removeImage, false);
-
-            @if ($item->image)
-                previewContainer.style.display = 'block';
-                previewName.textContent = "{{ basename($item->image) }}";
-                dropHint.style.display = 'none';
-            @endif
-
-            function handleDrop(e) {
-                const dt = e.dataTransfer;
-                const files = dt.files;
-                handleFiles({
-                    target: {
-                        files
-                    }
-                });
-            }
-
-            function handleFiles(e) {
-                const files = e.target.files;
-                if (!files || files.length === 0) return;
-                const file = files[0];
-
-                if (!ALLOWED.includes(file.type)) {
-                    alert('Tipe file tidak diijinkan. Gunakan JPG/PNG/WebP.');
-                    imageInput.value = '';
-                    return;
-                }
-
-                if (file.size > MAX_SIZE) {
-                    alert('Ukuran file terlalu besar. Maks 2 MB.');
-                    imageInput.value = '';
-                    return;
-                }
-
-                const reader = new FileReader();
-                reader.onload = function(ev) {
-                    previewImage.src = ev.target.result;
-                    previewContainer.style.display = 'block';
-                    previewName.textContent = file.name + ' (' + Math.round(file.size / 1024) + ' KB)';
-                    dropHint.style.display = 'none';
-                };
-                reader.readAsDataURL(file);
-            }
-
-            function removeImage() {
-                previewImage.src = '';
-                previewContainer.style.display = 'none';
-                imageInput.value = '';
-                dropHint.style.display = 'block';
-            }
-        });
-    </script>
+    @include('product.image-preview')
 @endsection

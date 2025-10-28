@@ -13,10 +13,33 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $data = [
-            'product' => product::with('category')->get(),
-        ];
-        return view('product.index', $data);
+        return view('product.index', [
+            'product' => Product::with('category')->paginate(18),
+            'categories' => Category::all(),
+        ]);
+    }
+
+    public function filter(Request $request)
+    {
+        $search = $request->input('search');
+        $categoryId = $request->input('category');
+
+        $query = Product::with('category');
+
+        if ($search) {
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                    ->orWhere('price', 'like', "%{$search}%");
+            });
+        }
+
+        if ($categoryId) {
+            $query->where('category_id', $categoryId);
+        }
+
+        $products = $query->get();
+
+        return response()->json($products);
     }
 
     /**
@@ -42,6 +65,7 @@ class ProductController extends Controller
             'stock' => 'required|integer|min:0',
             'category_id' => 'required|exists:categories,id',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
+            'is_featured' => 'required|boolean',
         ]);
     
         if ($request->hasFile('image')) {

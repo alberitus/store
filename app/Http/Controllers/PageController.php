@@ -17,7 +17,7 @@ class PageController extends Controller
 
         $featuredProducts = Product::where('is_featured', 1)
         ->latest()
-        ->take(12)
+        ->take(8)
         ->get();
 
         $data = [

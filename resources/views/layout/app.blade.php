@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Store</title>
+    <title>@yield('title', 'Dashboard')</title>
 
     <!-- Custom fonts for this template-->
     <link href="{{ asset('import/assets/vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
@@ -25,7 +25,7 @@
     <link href="{{ asset('import/assets/css/select2/select2-bootstrap4.min.css') }}" rel="stylesheet" />
 
     <link href="{{ asset('import/assets/css/style.css') }}" rel="stylesheet">
-
+    @stack('styles')
 </head>
 
 <body id="page-top">
@@ -112,6 +112,7 @@
         });
     </script>
 
+    @stack('scripts')
 </body>
 
 </html>

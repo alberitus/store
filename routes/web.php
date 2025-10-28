@@ -13,4 +13,5 @@ Route::get('/admin', function () {
 
 Route::resource('categories', CategoryController::class);
 
+Route::get('/products/filter', [ProductController::class, 'filter'])->name('products.filter');
 Route::resource('products', ProductController::class);

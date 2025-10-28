@@ -21,7 +21,6 @@
         </form>
     </div>
 
-    {{-- Product Grid --}}
     <div class="row" id="product-container">
         @forelse ($product as $item)
             <div class="col-md-2 mb-2">
@@ -88,7 +87,6 @@
             opacity: 1;
         }
 
-        /* Sembunyikan tombol edit kecuali saat hover */
         .edit-btn {
             opacity: 0;
             transition: opacity 0.3s ease;

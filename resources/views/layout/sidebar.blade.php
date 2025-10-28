@@ -21,7 +21,7 @@
         Interface
     </div>
 
-    <li class="nav-item  {{ Request::is('categories*') || Request::is('products*') ? 'active' : '' }}">
+    <li class="nav-item  {{ Request::is('categories*') || Request::is('products*')|| Request::is('segments*') ? 'active' : '' }}">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
             aria-expanded="true" aria-controls="collapseTwo">
             <i class="fas fa-fw fa-tags"></i>
@@ -30,6 +30,7 @@
         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <a class="collapse-item {{ Request::routeIs('categories.index') ? 'active' : '' }}" href="{{ route('categories.index') }}">Categories List</a>
+                <a class="collapse-item {{ Request::routeIs('segments.index') ? 'active' : '' }}" href="{{ route('segments.index') }}">Segment List</a>
                 <h6 class="collapse-header">Product:</h6>
                 <a class="collapse-item {{ Request::routeIs('products.index') ? 'active' : '' }}" href="{{ route('products.index') }}">Product List</a>
                 <a class="collapse-item {{ Request::routeIs('products.create') ? 'active' : '' }}" href="{{ route('products.create') }}">Add Product</a>

@@ -17,6 +17,7 @@ class product extends Model
         'price',
         'stock',
         'category_id',
+        'segment',
         'image',
         'is_featured',
     ];

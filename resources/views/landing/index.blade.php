@@ -6,6 +6,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Store</title>
     <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+        <style>.product-card {
+            transition: all 0.3s ease;
+        }
+
+        .segment-tab.active {
+            background-color: #ebf8ff;
+        }
+    </style>
+    </style>
 </head>
 
 <body class="bg-gray-50 text-gray-900">
@@ -47,9 +58,28 @@
             <a href="/" class="text-blue-600 hover:underline">View All</a>
         </div>
 
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+        <!-- Tabs Filter -->
+        <div class="flex flex-wrap gap-2 mb-6" id="segmentTabs">
+            <button class="segment-tab active border border-blue-600 text-blue-600 rounded px-4 py-2 hover:bg-blue-50"
+                data-segment="all">
+                All
+            </button>
+            @foreach ($segments as $seg)
+                <button class="segment-tab border text-gray-700 rounded px-4 py-2 hover:bg-blue-50"
+                    data-segment="{{ $seg->id }}">
+                    {{ $seg->segment }}
+                </button>
+            @endforeach
+        </div>
+
+        <!-- Product Grid -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6" id="productContainer">
             @forelse ($featuredProducts as $item)
-                <div class="bg-white shadow rounded-lg p-4 hover:shadow-lg transition">
+                @php
+                    $itemSegments = explode(',', $item->segment); // misal "1,2,3"
+                @endphp
+                <div class="product-card bg-white shadow rounded-lg p-4 hover:shadow-lg transition"
+                    data-segments="{{ implode(',', $itemSegments) }}">
                     <div class="relative group cursor-pointer">
                         @if ($item->image)
                             <img data-src="{{ asset('storage/' . $item->image) }}"
@@ -59,7 +89,6 @@
                                 class="rounded w-full h-48 object-cover lazyload" alt="No Image">
                         @endif
 
-                        <!-- Overlay teks -->
                         <div
                             class="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 
                                     flex items-center justify-center rounded transition duration-300">
@@ -194,5 +223,34 @@
         closeModal.addEventListener('click', () => modal.classList.add('hidden'));
     });
 </script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const tabs = document.querySelectorAll('.segment-tab');
+        const products = document.querySelectorAll('.product-card');
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', function() {
+                // Ganti tab aktif
+                tabs.forEach(t => t.classList.remove('active', 'border-blue-600',
+                    'text-blue-600'));
+                this.classList.add('active', 'border-blue-600', 'text-blue-600');
+
+                const selectedSegment = this.dataset.segment;
+
+                products.forEach(product => {
+                    const productSegments = product.dataset.segments.split(',');
+                    if (selectedSegment === 'all' || productSegments.includes(
+                            selectedSegment)) {
+                        product.style.display = 'block';
+                    } else {
+                        product.style.display = 'none';
+                    }
+                });
+            });
+        });
+    });
+</script>
+
 
 </html>

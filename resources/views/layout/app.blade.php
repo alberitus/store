@@ -72,21 +72,7 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lazysizes/5.3.2/lazysizes.min.js" async></script>
 
-    <script>
-        $(document).ready(function() {
-            $('.select2').each(function() {
-                $(this).select2({
-                    dropdownParent: $(this).closest('.modal').length ? $(this).closest('.modal') :
-                        $('body'),
-                    placeholder: $(this).data('placeholder') || 'Select an option',
-                    width: '100%',
-                    theme: 'bootstrap4',
-                    allowClear: true,
-                    dropdownAutoWidth: true
-                });
-            });
-        });
-    </script>
+    @include('layout.scripts.select2')
 
     @stack('scripts')
 </body>

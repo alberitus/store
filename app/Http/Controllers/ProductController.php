@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\category;
 use App\Models\product;
+use App\Models\category;
+use App\Models\segments;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -14,8 +15,8 @@ class ProductController extends Controller
     public function index()
     {
         return view('product.index', [
-            'product' => Product::with('category')->paginate(18),
-            'categories' => Category::all(),
+            'product' => product::with('category')->paginate(18),
+            'categories' => category::all(),
         ]);
     }
 
@@ -24,7 +25,7 @@ class ProductController extends Controller
         $search = $request->input('search');
         $categoryId = $request->input('category');
 
-        $query = Product::with('category');
+        $query = product::with('category');
 
         if ($search) {
             $query->where(function ($q) use ($search) {
@@ -49,6 +50,7 @@ class ProductController extends Controller
     {
         $data = [
             'category' => category::all(),
+            'segment' => segments::all(),
         ];
         return view('product.create', $data);
     }
@@ -64,10 +66,14 @@ class ProductController extends Controller
             'price' => 'required|numeric|min:0',
             'stock' => 'required|integer|min:0',
             'category_id' => 'required|exists:categories,id',
+            'segment' => 'required|array',
+            'segment.*' => 'exists:segments,id',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
             'is_featured' => 'required|boolean',
         ]);
     
+        $validated['segment'] = implode(',', $validated['segment']);
+        
         if ($request->hasFile('image')) {
             $validated['image'] = $request->file('image')->store('products', 'public');
         }

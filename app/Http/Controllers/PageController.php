@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\category;
 use App\Models\product;
+use App\Models\segments;
 use Illuminate\Http\Request;
 
 class PageController extends Controller
@@ -20,11 +21,14 @@ class PageController extends Controller
         ->take(8)
         ->get();
 
+        $segments = segments::all();
+
         $data = [
             'latestProducts' => $latestProducts,
             'featuredProducts' => $featuredProducts,
+            'segments' => $segments,
         ];
     
-        return view('index', $data);
+        return view('landing.index', $data);
     }
 }

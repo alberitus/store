@@ -12,7 +12,7 @@
     <hr class="sidebar-divider my-0">
 
     <!-- Nav Item - Dashboard -->
-    <li class="nav-item active">
+    <li class="nav-item">
         <a class="nav-link" href="index.html">
             <i class="fas fa-fw fa-cart-shopping"></i>
             <span>Dashboard</span></a>
@@ -41,6 +41,15 @@
                 <a class="collapse-item {{ Request::routeIs('products.create') ? 'active' : '' }}" href="{{ route('products.create') }}">Add Product</a>
             </div>
         </div>
+    </li>
+
+    <hr class="sidebar-divider">
+
+    
+    <li class="nav-item">
+        <a class="nav-link" href="{{ route('index') }}">
+            <i class="fab fa-fw fa-chrome"></i>
+            <span>Landing Page</span></a>
     </li>
 
     <!-- Divider -->

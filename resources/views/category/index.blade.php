@@ -28,19 +28,15 @@
                             <tr>
                                 <th width="5%">#</th>
                                 <th>CATEGORIES</th>
-                                <th>TOTAL PRODUCTS</th>
-                                <th>TOTAL EARNING</th>
                                 <th width="5%">ACTION</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($category as $item)
                                 <tr>
-                                    <td>{{ $loop->iteration }}</td>
+                                    <td class="text-center">{{ $loop->iteration }}</td>
                                     <td>{{ $item->name }}</td>
-                                    <td>{{ $item->name }}</td>
-                                    <td>{{ $item->name }}</td>
-                                    <td class="center-table wd-5">
+                                    <td class="text-center">
                                         <div class="dropdown">
                                             <button class="btn btn-sm btn-outline-primary dropdown-toggle" type="button"
                                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

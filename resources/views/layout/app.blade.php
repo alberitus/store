@@ -12,19 +12,19 @@
     <title>@yield('title', 'Dashboard')</title>
 
     <!-- Custom fonts for this template-->
-    <link href="{{ asset('import/assets/vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('assets/vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
     <link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet">
 
     <!-- Custom styles for this template-->
-    <link href="{{ asset('import/assets/css/sb-admin-2.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('import/assets/vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('import/assets/css/select2/select2.min.css') }}" rel="stylesheet" />
-    <link href="{{ asset('import/assets/css/select2/select2-bootstrap.min.css') }}" rel="stylesheet" />
-    <link href="{{ asset('import/assets/css/select2/select2-bootstrap4.min.css') }}" rel="stylesheet" />
+    <link href="{{ asset('assets/css/sb-admin-2.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/css/select2/select2.min.css') }}" rel="stylesheet" />
+    <link href="{{ asset('assets/css/select2/select2-bootstrap.min.css') }}" rel="stylesheet" />
+    <link href="{{ asset('assets/css/select2/select2-bootstrap4.min.css') }}" rel="stylesheet" />
 
-    <link href="{{ asset('import/assets/css/style.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet">
     @stack('styles')
 </head>
 
@@ -71,28 +71,28 @@
     @include('layout.modal-logout')
 
     <!-- Bootstrap core JavaScript-->
-    <script src="{{ asset('import/assets/vendor/jquery/jquery.min.js') }}"></script>
-    <script src="{{ asset('import/assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ asset('assets/vendor/jquery/jquery.min.js') }}"></script>
+    <script src="{{ asset('assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 
     <!-- Core plugin JavaScript-->
-    <script src="{{ asset('import/assets/vendor/jquery-easing/jquery.easing.min.js') }}"></script>
+    <script src="{{ asset('assets/vendor/jquery-easing/jquery.easing.min.js') }}"></script>
 
     <!-- Custom scripts for all pages-->
-    <script src="{{ asset('import/assets/js/sb-admin-2.min.js') }}"></script>
+    <script src="{{ asset('assets/js/sb-admin-2.min.js') }}"></script>
 
     <!-- datatables -->
-    <script src="{{ asset('import/assets/vendor/datatables/jquery.dataTables.min.js') }}"></script>
-    <script src="{{ asset('import/assets/vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('assets/vendor/datatables/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('assets/vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
 
     <!-- Page level plugins -->
-    <script src="{{ asset('import/assets/vendor/chart.js/Chart.min.js') }}"></script>
+    <script src="{{ asset('assets/vendor/chart.js/Chart.min.js') }}"></script>
 
     <!-- Page level custom scripts -->
-    <script src="{{ asset('import/assets/js/select2/select2.min.js') }}"></script>
-    <script src="{{ asset('import/assets/js/sweetalert2/sweetalert2.min.js') }}"></script>
-    <script src="{{ asset('import/assets/js/demo/chart-area-demo.js') }}"></script>
-    <script src="{{ asset('import/assets/js/demo/chart-pie-demo.js') }}"></script>
-    <script src="{{ asset('import/assets/js/datatables.js') }}"></script>
+    <script src="{{ asset('assets/js/select2/select2.min.js') }}"></script>
+    <script src="{{ asset('assets/js/sweetalert2/sweetalert2.min.js') }}"></script>
+    <script src="{{ asset('assets/js/demo/chart-area-demo.js') }}"></script>
+    <script src="{{ asset('assets/js/demo/chart-pie-demo.js') }}"></script>
+    <script src="{{ asset('assets/js/datatables.js') }}"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lazysizes/5.3.2/lazysizes.min.js" async></script>
 

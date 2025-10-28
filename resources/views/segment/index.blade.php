@@ -12,59 +12,81 @@
                 <a>Segment List</a>
             </li>
         </ol>
-        <div class="card shadow mb-4">
-            <div class="card-header py-3 d-flex justify-content-between align-items-center">
-                <h6 class="m-0 font-weight-bold text-primary">Tabel Segment</h6>
-                <div class="d-flex gap-2 ml-auto">
-                    <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modalAddSegment">
-                        <i class="fa fa-plus"></i> Add Segment
-                    </button>
-                </div>
-            </div>
-            <div class="card-body">
-                <div class="table-responsive">
-                    <table class="table table-bordered table-striped" id="dataTable" width="100%" cellspacing="0">
-                        <thead>
-                            <tr>
-                                <th width="5%">#</th>
-                                <th>Segment</th>
-                                <th width="5%">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($segments as $item)
-                                <tr>
-                                    <td class="text-center">{{ $loop->iteration }}</td>
-                                    <td>{{ $item->segment }}</td>
-                                    <td class="text-center">
-                                        <div class="dropdown">
-                                            <button class="btn btn-sm btn-outline-primary dropdown-toggle" type="button"
-                                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                <i class="fas fa-cogs"></i>
-                                            </button>
-                                            <div class="dropdown-menu dropdown-menu-right">
-                                                <a class="dropdown-item" href="" data-toggle="modal"
-                                                    data-target="#modalEdit{{ $item->id }}">
-                                                    <i class="fas fa-edit me-1"></i> Edit
-                                                </a>
-                                                <form action="{{ route('segments.destroy', encrypt($item->id)) }}"
-                                                    method="POST" class="delete-form d-inline">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="button" class="dropdown-item btn-delete text-danger"
-                                                        data-id="{{ $item->id }}">
-                                                        <i class="fas fa-trash me-1"></i> Delete
-                                                    </button>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
+    </nav>
+    <div class="card shadow mb-4">
+        <div class="card-header py-3 d-flex justify-content-between align-items-center">
+            <h6 class="m-0 font-weight-bold text-primary">Tabel Segment</h6>
+            <div class="d-flex gap-2 ml-auto">
+                <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modalAddSegment">
+                    <i class="fa fa-plus"></i> Add Segment
+                </button>
             </div>
         </div>
-        @include('segment.modal-add')
-    @endsection
+        <div class="card-body">
+            <div class="table-responsive" id="data"></div>
+        </div>
+    </div>
+    @include('segment.modal-add')
+@endsection
+@push('scripts')
+    <script>
+        let loadData = () => {
+            $('#data').html(
+                '<div class="text-center py-5"><i class="fas fa-spinner fa-spin fa-3x text-secondary"></i><p class="mt-3">Loading data...</p></div>'
+            );
+            $.ajax({
+                type: 'GET',
+                url: '{{ route('segments.table') }}',
+                global: false,
+                success: function(sdata) {
+                    $('#data').html(sdata);
+
+                    let dataTable = $('#dataTable').DataTable({
+                        destroy: true,
+                        serverSide: false,
+                        deferRender: true,
+                        processing: false,
+                        pageLength: 10,
+                        responsive: true,
+                        columnDefs: [{
+                            orderable: false,
+                            targets: 0
+                        }, ],
+                        drawCallback: function() {
+                            var api = this.api();
+                            var startIndex = api.page.info().start;
+                            api.column(0, {
+                                    page: 'current'
+                                })
+                                .nodes()
+                                .each(function(cell, i) {
+                                    cell.innerHTML = startIndex + i + 1;
+                                });
+
+                            attachEventListeners();
+                        }
+                    });
+
+                    $('#dataTable tbody').on('click', 'tr', function() {
+                        if ($(this).hasClass('selected')) {
+                            $(this).removeClass('selected');
+                        } else {
+                            barangTable.$('tr.selected').removeClass('selected');
+                            $(this).addClass('selected');
+                        }
+                    });
+                },
+                error: function() {
+                    $('#data').html(
+                        '<div class="alert alert-danger">Gagal memuat data. Silakan refresh halaman.</div>'
+                    );
+                    alert('Server Error');
+                }
+            });
+        };
+
+        $(document).ready(function() {
+            loadData();
+        });
+    </script>
+@endpush

@@ -21,7 +21,7 @@
         Interface
     </div>
 
-    <li class="nav-item  {{ Request::is('categories*') || Request::is('products*')|| Request::is('segments*') ? 'active' : '' }}">
+    <li class="nav-item  {{ Request::is('admin/categories*') || Request::is('admin/products*')|| Request::is('admin/segments*') ? 'active' : '' }}">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
             aria-expanded="true" aria-controls="collapseTwo">
             <i class="fas fa-fw fa-tags"></i>

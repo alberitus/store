@@ -32,7 +32,7 @@
     background-color: #e07816;
     background-image: linear-gradient(180deg, #c06d1f 10%, #373840 100%);
     background-size: cover;
-  }
+}
 
 .bg-danger-pudar {
     background-color: rgba(220, 53, 69, 0.6) !important; /* merah agak transparan */
@@ -47,4 +47,15 @@
 .bg-success-pudar {
     background-color: rgba(40, 167, 69, 0.6) !important; /* hijau agak transparan */
     color: #fff !important;
+}
+
+.fixed-pagination {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: #fff;
+    padding: 10px 0;
+    box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+    z-index: 1000;
 }

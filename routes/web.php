@@ -12,7 +12,10 @@ Route::get('/admin', function () {
     return view('dashboard.dashboard');
 });
 
+Route::get('admin/categories/table', [CategoryController::class, 'table'])->name('categories.table');
 Route::resource('admin/categories', CategoryController::class);
+
+Route::get('admin/segments/table', [SegmentController::class, 'table'])->name('segments.table');
 Route::resource('admin/segments', SegmentController::class);
 
 Route::get('/products/filter', [ProductController::class, 'filter'])->name('products.filter');

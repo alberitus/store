@@ -13,10 +13,27 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $data = [
-            'category' => category::all(),
-        ];
-        return view('category.index', $data);
+        return view('category.index');
+    }
+
+    public function table()
+    {
+        try {
+            $data = [
+                'category' => category::all(),
+            ];
+            return view('category.table', $data);
+        } 
+        catch (\Illuminate\Database\QueryException $e) {
+            return response()->json([
+                'error' => 'Kesalahan query database: ' . $e->getMessage()
+            ], 500);
+        } 
+        catch (\Exception $e) {
+            return response()->json([
+                'error' => 'Terjadi kesalahan tak terduga: ' . $e->getMessage()
+            ], 500);
+        }
     }
 
     /**
@@ -32,9 +49,20 @@ class CategoryController extends Controller
      */
     public function store(CategoryRequest  $request)
     {
-        category::create($request->validated());
-    
-        return redirect()->back()->with('success', 'Add Category is Success.');
+        try {
+            category::create($request->validated());
+        
+            return redirect()->back()->with('success', 'Add Category is Success.');
+        } 
+        catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            return back()->with('error', 'Data barang tidak ditemukan.');
+        } 
+        catch (\Illuminate\Validation\ValidationException $e) {
+            return back()->withErrors($e->validator)->withInput();
+        } 
+        catch (\Exception $e) {
+            return back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+        }
     }
 
     /**

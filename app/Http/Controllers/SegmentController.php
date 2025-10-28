@@ -12,10 +12,27 @@ class SegmentController extends Controller
      */
     public function index()
     {
-        $data = [
-            'segments' => segments::all(),
-        ];
-        return view('segment.index', $data);
+        return view('segment.index');
+    }
+
+    public function table()
+    {
+        try {
+            $data = [
+                'segments' => segments::all(),
+            ];
+            return view('segment.table', $data);
+        } 
+        catch (\Illuminate\Database\QueryException $e) {
+            return response()->json([
+                'error' => 'Kesalahan query database: ' . $e->getMessage()
+            ], 500);
+        } 
+        catch (\Exception $e) {
+            return response()->json([
+                'error' => 'Terjadi kesalahan tak terduga: ' . $e->getMessage()
+            ], 500);
+        }
     }
 
     /**
@@ -31,9 +48,20 @@ class SegmentController extends Controller
      */
     public function store(Request  $request)
     {
-        segments::create($request->all());
-    
-        return redirect()->back()->with('success', 'Add Segments is Success.');
+        try {
+            segments::create($request->all());
+        
+            return redirect()->back()->with('success', 'Add Segments is Success.');
+        } 
+        catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            return back()->with('error', 'Data barang tidak ditemukan.');
+        } 
+        catch (\Illuminate\Validation\ValidationException $e) {
+            return back()->withErrors($e->validator)->withInput();
+        } 
+        catch (\Exception $e) {
+            return back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+        }
     }
 
     /**
